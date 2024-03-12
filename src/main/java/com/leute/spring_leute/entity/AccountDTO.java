@@ -1,19 +1,26 @@
 package com.leute.spring_leute.entity;
 
-public class DiscordUserDTO {
+public class AccountDTO {
+    public AccountDTO() {}
     private String nickname;
     private String realName;
     private String description;
-    private String discordUserId;
+    private String email;
 
-    public DiscordUserDTO(String nickname, String realName, String description, String discordUserId) {
+    public AccountDTO(String nickname, String realName, String description, String email) {
         this.nickname = nickname;
         this.realName = realName;
         this.description = description;
-        this.discordUserId = discordUserId;
+        this.email = email;
     }
 
-    public DiscordUserDTO() {}
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getNickname() {
         return nickname;
@@ -37,13 +44,5 @@ public class DiscordUserDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getDiscordUserId() {
-        return discordUserId;
-    }
-
-    public void setDiscordUserId(String discordUserId) {
-        this.discordUserId = discordUserId;
     }
 }

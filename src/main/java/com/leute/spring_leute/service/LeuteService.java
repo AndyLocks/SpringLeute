@@ -1,11 +1,12 @@
 package com.leute.spring_leute.service;
 
-import com.leute.spring_leute.entity.DiscordUserDTO;
+import com.leute.spring_leute.entity.AccountDTO;
+import com.leute.spring_leute.entity.DiscordAccountDTO;
+import com.leute.spring_leute.entity.ResponseAccountDTO;
 import org.springframework.http.ResponseEntity;
 
 public interface LeuteService {
-    DiscordUserDTO getUserByDiscordId(String id);
-    DiscordUserDTO getUserByNickname(String nickname);
-    ResponseEntity saveNewDiscordUser(DiscordUserDTO user);
-    ResponseEntity deleteUserById(String id);
+    ResponseAccountDTO getUserByNickname(String nickname);
+    ResponseEntity saveNewDiscordUser(AccountDTO user);
+    ResponseEntity addDiscordAccount(String nickname, DiscordAccountDTO discordAccountDTO);
 }

@@ -1,12 +1,14 @@
 package com.leute.spring_leute.service;
 
-import com.leute.spring_leute.entity.DiscordUser;
-import com.leute.spring_leute.entity.DiscordUserDTO;
+import com.leute.spring_leute.entity.*;
 import com.leute.spring_leute.repository.LeuteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Service
 public class LeuteServiceDB implements LeuteService {
@@ -14,39 +16,53 @@ public class LeuteServiceDB implements LeuteService {
     private LeuteDAO repository;
 
     @Override
-    public DiscordUserDTO getUserByDiscordId(String id) {
-        DiscordUser user = repository.getUserById(id);
-        if (user == null)
-            return null;
-        return new DiscordUserDTO(
-                user.getNickname(),
-                user.getRealName(),
-                user.getDescription(),
-                user.getDiscordUserId()
-        );
-    }
+    public ResponseAccountDTO getUserByNickname(String nickname) {
+        Account user = repository.getUserByNickname(nickname);
 
-    @Override
-    public DiscordUserDTO getUserByNickname(String nickname) {
-        DiscordUser user = repository.getUserByNickname(nickname);
         if(user == null)
             return null;
-        return new DiscordUserDTO(
+
+        DiscordAccount discordAccount = user.getDiscordAccount();
+
+        String discordUserId = null;
+        String imageUrl = null;
+        String discordNickname = null;
+        String discordDescription = null;
+        String discordName = null;
+        if (discordAccount != null) {
+            discordUserId = discordAccount.getUserId();
+            imageUrl = discordAccount.getImageUrl();
+            discordNickname = discordAccount.getNickname();
+            discordDescription = discordAccount.getDescription();
+            discordName = discordAccount.getName();
+        }
+
+
+        return new ResponseAccountDTO(
                 user.getNickname(),
                 user.getRealName(),
                 user.getDescription(),
-                user.getDiscordUserId()
+                discordUserId,
+                imageUrl,
+                discordNickname,
+                discordDescription,
+                discordName,
+                user.getEmail()
         );
     }
 
     @Override
-    public ResponseEntity saveNewDiscordUser(DiscordUserDTO user) {
-        DiscordUser discordUser = new DiscordUser(
+    public ResponseEntity saveNewDiscordUser(AccountDTO dto) {
+        if(!Pattern.compile("^(.+)@(\\S+)$").matcher(dto.getEmail()).matches()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("email", "error").build();
+        }
+        Account discordUser = new Account(
                 0,
-                user.getNickname(),
-                user.getRealName(),
-                user.getDescription(),
-                user.getDiscordUserId()
+                dto.getNickname(),
+                dto.getRealName(),
+                dto.getDescription(),
+                dto.getEmail(),
+                null
         );
         try {
             this.repository.saveNewDiscordUser(discordUser);
@@ -58,13 +74,28 @@ public class LeuteServiceDB implements LeuteService {
     }
 
     @Override
-    public ResponseEntity deleteUserById(String id) {
+    public ResponseEntity addDiscordAccount(String nickname, DiscordAccountDTO discordAccountDTO) {
         try {
-            this.repository.deleteUserById(id);
-            return ResponseEntity.ok().build();
+            Objects.requireNonNull(discordAccountDTO.getUserId());
+            Objects.requireNonNull(discordAccountDTO.getNickname());
         }
-        catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+
+        Account account = repository.getUserByNickname(nickname);
+
+        DiscordAccount discordAccount = new DiscordAccount();
+        discordAccount.setUserId(discordAccountDTO.getUserId());
+        discordAccount.setDescription(discordAccountDTO.getDescription());
+        discordAccount.setNickname(discordAccountDTO.getNickname());
+        discordAccount.setImageUrl(discordAccountDTO.getImageUrl());
+        discordAccount.setName(discordAccountDTO.getName());
+
+        account.setDiscordAccount(discordAccount);
+
+        repository.saveNewDiscordUser(account);
+
+        return ResponseEntity.ok().build();
     }
 }

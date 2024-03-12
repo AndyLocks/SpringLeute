@@ -3,8 +3,9 @@ package com.leute.spring_leute.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "discord_user")
-public class DiscordUser {
+@Table(name = "account")
+public class Account {
+    public Account() {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,17 +20,11 @@ public class DiscordUser {
     private String description;
 
     @Column(nullable = false, unique = true)
-    private String discordUserId;
+    private String email;
 
-    public DiscordUser(int id, String nickname, String realName, String description, String discordUserId) {
-        this.id = id;
-        this.nickname = nickname;
-        this.realName = realName;
-        this.description = description;
-        this.discordUserId = discordUserId;
-    }
-
-    public DiscordUser() {}
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "discord_account_id", referencedColumnName = "id")
+    private DiscordAccount discordAccount = null;
 
     public int getId() {
         return id;
@@ -63,11 +58,28 @@ public class DiscordUser {
         this.description = description;
     }
 
-    public String getDiscordUserId() {
-        return discordUserId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDiscordUserId(String discordUserId) {
-        this.discordUserId = discordUserId;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public DiscordAccount getDiscordAccount() {
+        return discordAccount;
+    }
+
+    public void setDiscordAccount(DiscordAccount discordAccount) {
+        this.discordAccount = discordAccount;
+    }
+
+    public Account(int id, String nickname, String realName, String description, String email, DiscordAccount discordAccount) {
+        this.id = id;
+        this.nickname = nickname;
+        this.realName = realName;
+        this.description = description;
+        this.email = email;
+        this.discordAccount = discordAccount;
     }
 }
