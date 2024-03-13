@@ -1,8 +1,6 @@
 package com.leute.spring_leute.controller;
 
-import com.leute.spring_leute.entity.AccountDTO;
-import com.leute.spring_leute.entity.DiscordAccountDTO;
-import com.leute.spring_leute.entity.ResponseAccountDTO;
+import com.leute.spring_leute.entity.*;
 import com.leute.spring_leute.service.LeuteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +19,7 @@ public class LeuteController {
     @Operation(
             summary = "Adds a new user"
     )
-    @PostMapping("save")
+    @PostMapping("registration")
     public ResponseEntity saveNewDiscordUser(@RequestBody AccountDTO user) {
         return this.service.saveNewDiscordUser(user);
     }
@@ -37,5 +35,10 @@ public class LeuteController {
     @PostMapping("{nickname}/add_discord_account")
     public ResponseEntity addDiscordAccount(@PathVariable String nickname, @RequestBody DiscordAccountDTO discordAccountDTO) {
         return this.service.addDiscordAccount(nickname, discordAccountDTO);
+    }
+
+    @PostMapping("login")
+    public boolean checkLogin(@RequestBody LoginDTO login) {
+        return this.service.chekLogin(login);
     }
 }

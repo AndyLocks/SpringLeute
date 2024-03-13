@@ -2,6 +2,7 @@ package com.leute.spring_leute.service;
 
 import com.leute.spring_leute.entity.*;
 import com.leute.spring_leute.repository.LeuteDAO;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,12 @@ import java.util.regex.Pattern;
 public class LeuteServiceDB implements LeuteService {
     @Autowired
     private LeuteDAO repository;
+
+    @Override
+    public boolean chekLogin(LoginDTO login) {
+        Account account = repository.getUserByNickname(login.getNickname());
+        return account.getPasswordHash().equals(DigestUtils.sha1Hex(login.getPassword()));
+    }
 
     @Override
     public ResponseAccountDTO getUserByNickname(String nickname) {
@@ -56,14 +63,17 @@ public class LeuteServiceDB implements LeuteService {
         if(!Pattern.compile("^(.+)@(\\S+)$").matcher(dto.getEmail()).matches()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("email", "error").build();
         }
+
         Account discordUser = new Account(
                 0,
                 dto.getNickname(),
                 dto.getRealName(),
                 dto.getDescription(),
                 dto.getEmail(),
-                null
+                null,
+                dto.getPassword()
         );
+
         try {
             this.repository.saveNewDiscordUser(discordUser);
             return ResponseEntity.ok().build();
