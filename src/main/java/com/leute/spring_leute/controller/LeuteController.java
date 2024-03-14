@@ -28,17 +28,27 @@ public class LeuteController {
             summary = "Find user by nickname"
     )
     @GetMapping("{nickname}")
-    public ResponseAccountDTO findUserByNickname(@PathVariable String nickname) {
+    public ResponseEntity<ResponseAccountDTO> findUserByNickname(@PathVariable String nickname) {
         return this.service.getUserByNickname(nickname);
     }
 
     @PostMapping("{nickname}/add_discord_account")
-    public ResponseEntity addDiscordAccount(@PathVariable String nickname, @RequestBody DiscordAccountDTO discordAccountDTO) {
-        return this.service.addDiscordAccount(nickname, discordAccountDTO);
+    public ResponseEntity addDiscordAccount(@PathVariable String nickname, @RequestBody DiscordAccountDTO discordAccountDTO, @RequestParam String password) {
+        return this.service.addDiscordAccount(nickname, discordAccountDTO, password);
     }
 
-    @PostMapping("login")
-    public boolean checkLogin(@RequestBody LoginDTO login) {
-        return this.service.chekLogin(login);
+    @GetMapping("check_login")
+    public ResponseEntity<Boolean> checkLogin(@RequestParam String nickname, @RequestParam String password) {
+        return this.service.chekLogin(nickname, password);
+    }
+
+    @DeleteMapping("delete/{nickname}")
+    public ResponseEntity deleteUser(@PathVariable String nickname, @RequestParam String password) {
+        return this.service.deleteUser(nickname, password);
+    }
+
+    @PutMapping("update/{nickname}")
+    public ResponseEntity updateAccount(@RequestBody AccountUpdateDTO accountUpdateDTO, @PathVariable String nickname, @RequestParam String password) {
+        return this.service.updateAccount(accountUpdateDTO, nickname, password);
     }
 }

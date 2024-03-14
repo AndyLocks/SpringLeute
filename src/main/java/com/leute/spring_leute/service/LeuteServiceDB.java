@@ -17,13 +17,16 @@ public class LeuteServiceDB implements LeuteService {
     private LeuteDAO repository;
 
     @Override
-    public boolean chekLogin(LoginDTO login) {
-        Account account = repository.getUserByNickname(login.getNickname());
-        return account.getPasswordHash().equals(DigestUtils.sha1Hex(login.getPassword()));
+    public ResponseEntity<Boolean> chekLogin(String nickname, String password) {
+        Account account = repository.getUserByNickname(nickname);
+        if (account == null) {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(account.getPasswordHash().equals(DigestUtils.sha1Hex(password)), HttpStatus.OK);
     }
 
     @Override
-    public ResponseAccountDTO getUserByNickname(String nickname) {
+    public ResponseEntity<ResponseAccountDTO> getUserByNickname(String nickname) {
         Account user = repository.getUserByNickname(nickname);
 
         if(user == null)
@@ -45,7 +48,7 @@ public class LeuteServiceDB implements LeuteService {
         }
 
 
-        return new ResponseAccountDTO(
+        return new ResponseEntity<>(new ResponseAccountDTO(
                 user.getNickname(),
                 user.getRealName(),
                 user.getDescription(),
@@ -55,13 +58,24 @@ public class LeuteServiceDB implements LeuteService {
                 discordDescription,
                 discordName,
                 user.getEmail()
-        );
+        ), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity saveNewDiscordUser(AccountDTO dto) {
-        if(!Pattern.compile("^(.+)@(\\S+)$").matcher(dto.getEmail()).matches()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("email", "error").build();
+        try {
+            Objects.requireNonNull(dto.getEmail());
+            Objects.requireNonNull(dto.getDescription());
+            Objects.requireNonNull(dto.getNickname());
+            Objects.requireNonNull(dto.getPassword());
+        }
+        catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+
+        if(!Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(dto.getEmail()).matches()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("details", "invalid email").build();
         }
 
         Account discordUser = new Account(
@@ -84,7 +98,7 @@ public class LeuteServiceDB implements LeuteService {
     }
 
     @Override
-    public ResponseEntity addDiscordAccount(String nickname, DiscordAccountDTO discordAccountDTO) {
+    public ResponseEntity addDiscordAccount(String nickname, DiscordAccountDTO discordAccountDTO, String password) {
         try {
             Objects.requireNonNull(discordAccountDTO.getUserId());
             Objects.requireNonNull(discordAccountDTO.getNickname());
@@ -94,6 +108,14 @@ public class LeuteServiceDB implements LeuteService {
         }
 
         Account account = repository.getUserByNickname(nickname);
+
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        if (!account.getPasswordHash().equals(DigestUtils.sha1Hex(password))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("details", "password is not correct").build();
+        }
 
         DiscordAccount discordAccount = new DiscordAccount();
         discordAccount.setUserId(discordAccountDTO.getUserId());
@@ -105,6 +127,42 @@ public class LeuteServiceDB implements LeuteService {
         account.setDiscordAccount(discordAccount);
 
         repository.saveNewDiscordUser(account);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity deleteUser(String nickname, String password) {
+        Account account = repository.getUserByNickname(nickname);
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        if (!account.getPasswordHash().equals(DigestUtils.sha1Hex(password))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("details", "password is not correct").build();
+        }
+
+        repository.deleteAccount(account);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity updateAccount(AccountUpdateDTO accountUpdateDTO, String nickname, String password) {
+        Account account = repository.getUserByNickname(nickname);
+
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        if (!account.getPasswordHash().equals(DigestUtils.sha1Hex(password))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("details", "password is not correct").build();
+        }
+
+        if (accountUpdateDTO.getDescription() != null) account.setDescription(accountUpdateDTO.getDescription());
+        if (accountUpdateDTO.getRealName() != null) account.setRealName(accountUpdateDTO.getRealName());
+
+        repository.updateAccount(account);
 
         return ResponseEntity.ok().build();
     }

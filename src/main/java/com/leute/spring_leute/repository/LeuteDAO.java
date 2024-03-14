@@ -17,4 +17,12 @@ public class LeuteDAO {
     public Account getUserByNickname(String nickname) {
         return repo.getUserByNickname(nickname);
     }
+
+    public void deleteAccount(Account account) {
+        repo.delete(account);
+    }
+
+    public void updateAccount(Account account) {
+        repo.save(account);
+    }
 }

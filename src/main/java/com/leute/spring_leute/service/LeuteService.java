@@ -4,9 +4,13 @@ import com.leute.spring_leute.entity.*;
 import org.springframework.http.ResponseEntity;
 
 public interface LeuteService {
-    ResponseAccountDTO getUserByNickname(String nickname);
+    ResponseEntity<ResponseAccountDTO> getUserByNickname(String nickname);
     ResponseEntity saveNewDiscordUser(AccountDTO user);
-    ResponseEntity addDiscordAccount(String nickname, DiscordAccountDTO discordAccountDTO);
+    ResponseEntity addDiscordAccount(String nickname, DiscordAccountDTO discordAccountDTO, String password);
 
-    boolean chekLogin(LoginDTO login);
+    ResponseEntity<Boolean> chekLogin(String nickname, String password);
+
+    ResponseEntity deleteUser(String nickname, String password);
+
+    ResponseEntity updateAccount(AccountUpdateDTO accountUpdateDTO,String nickname, String password);
 }
