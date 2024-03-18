@@ -3,6 +3,7 @@ package com.leute.spring_leute.service;
 import com.leute.spring_leute.entity.*;
 import com.leute.spring_leute.repository.LeuteDAO;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -126,7 +127,12 @@ public class LeuteServiceDB implements LeuteService {
 
         account.setDiscordAccount(discordAccount);
 
-        repository.saveNewDiscordUser(account);
+        try {
+            repository.saveNewDiscordUser(account);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).header("details", e.getMessage()).build();
+        }
 
         return ResponseEntity.ok().build();
     }
