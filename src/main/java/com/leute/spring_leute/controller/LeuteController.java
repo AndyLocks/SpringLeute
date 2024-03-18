@@ -51,4 +51,9 @@ public class LeuteController {
     public ResponseEntity updateAccount(@RequestBody AccountUpdateDTO accountUpdateDTO, @PathVariable String nickname, @RequestParam String password) {
         return this.service.updateAccount(accountUpdateDTO, nickname, password);
     }
+
+    @GetMapping("discord_id/{id}")
+    public ResponseEntity<ResponseAccountDTO> getAccountByDiscordId(@PathVariable String id) {
+        return this.service.getUserByDiscordId(id);
+    }
 }

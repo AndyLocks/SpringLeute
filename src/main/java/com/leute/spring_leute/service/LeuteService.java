@@ -13,4 +13,6 @@ public interface LeuteService {
     ResponseEntity deleteUser(String nickname, String password);
 
     ResponseEntity updateAccount(AccountUpdateDTO accountUpdateDTO,String nickname, String password);
+
+    ResponseEntity<ResponseAccountDTO> getUserByDiscordId(String id);
 }

@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface LeuteRepo extends JpaRepository<Account, Integer> {
     @Query(value = "select * from account where nickname = ?1", nativeQuery = true)
     Account getUserByNickname(String nickname);
+
+    @Query(value = "select account.*, discord_account.user_id from account join discord_account on account.discord_account_id = discord_account.id where discord_account.user_id = ?1", nativeQuery = true)
+    Account findAccountByDiscordId(String id);
 }

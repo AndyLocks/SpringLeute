@@ -1,6 +1,7 @@
 package com.leute.spring_leute.repository;
 
 import com.leute.spring_leute.entity.Account;
+import com.leute.spring_leute.entity.ResponseAccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +25,14 @@ public class LeuteDAO {
 
     public void updateAccount(Account account) {
         repo.save(account);
+    }
+
+    public ResponseAccountDTO getAccountByDiscordId(String id) {
+        try {
+            return ResponseAccountDTO.fromAccount(repo.findAccountByDiscordId(id));
+        }
+        catch (NullPointerException e) {
+            return null;
+        }
     }
 }

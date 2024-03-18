@@ -132,6 +132,11 @@ public class LeuteServiceDB implements LeuteService {
     }
 
     @Override
+    public ResponseEntity<ResponseAccountDTO> getUserByDiscordId(String id) {
+        return new ResponseEntity<>(repository.getAccountByDiscordId(id), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity deleteUser(String nickname, String password) {
         Account account = repository.getUserByNickname(nickname);
         if (account == null) {
