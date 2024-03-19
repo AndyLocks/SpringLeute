@@ -1,6 +1,7 @@
 package com.leute.spring_leute.repository;
 
-import com.leute.spring_leute.entity.DiscordUser;
+import com.leute.spring_leute.entity.Account;
+import com.leute.spring_leute.entity.ResponseAccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,22 +11,32 @@ public class LeuteDAO {
     @Autowired
     private LeuteRepo repo;
 
-    public void saveNewDiscordUser(DiscordUser user) {
+    public void saveNewDiscordUser(Account user) {
         repo.save(user);
     }
 
-    public DiscordUser getUserById(String id) {
-        return repo.getUserById(id);
-    }
-
-    public DiscordUser getUserByNickname(String nickname) {
+    public Account getUserByNickname(String nickname) {
         return repo.getUserByNickname(nickname);
     }
 
-    public void deleteUserById(String id) throws IllegalArgumentException {
-        DiscordUser user = this.getUserById(id);
-        if (user == null)
-            throw new IllegalArgumentException();
-        repo.delete(user);
+    public void deleteAccount(Account account) {
+        repo.delete(account);
+    }
+
+    public void updateAccount(Account account) {
+        repo.save(account);
+    }
+
+    public ResponseAccountDTO getAccountByDiscordId(String id) {
+        try {
+            return ResponseAccountDTO.fromAccount(repo.findAccountByDiscordId(id));
+        }
+        catch (NullPointerException e) {
+            return null;
+        }
+    }
+
+    public Account getUserByEmail(String email) {
+        return repo.getUserByEmail(email);
     }
 }
