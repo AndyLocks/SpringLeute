@@ -3,7 +3,6 @@ package com.leute.spring_leute.service;
 import com.leute.spring_leute.entity.*;
 import com.leute.spring_leute.repository.LeuteDAO;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,7 +98,7 @@ public class LeuteServiceDB implements LeuteService {
     }
 
     @Override
-    public ResponseEntity addDiscordAccount(String nickname, DiscordAccountDTO discordAccountDTO, String password) {
+    public ResponseEntity addDiscordAccount(DiscordAccountDTO discordAccountDTO, String password, String email) {
         try {
             Objects.requireNonNull(discordAccountDTO.getUserId());
             Objects.requireNonNull(discordAccountDTO.getNickname());
@@ -108,7 +107,7 @@ public class LeuteServiceDB implements LeuteService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        Account account = repository.getUserByNickname(nickname);
+        Account account = repository.getUserByEmail(email);
 
         if (account == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -116,6 +115,13 @@ public class LeuteServiceDB implements LeuteService {
 
         if (!account.getPasswordHash().equals(DigestUtils.sha1Hex(password))) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("details", "password is not correct").build();
+        }
+
+        if (account.getDiscordAccount() != null) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .header("details", "discord account is already registered")
+                    .build();
         }
 
         DiscordAccount discordAccount = new DiscordAccount();

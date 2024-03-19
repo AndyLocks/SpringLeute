@@ -32,9 +32,9 @@ public class LeuteController {
         return this.service.getUserByNickname(nickname);
     }
 
-    @PostMapping("{nickname}/add_discord_account")
-    public ResponseEntity addDiscordAccount(@PathVariable String nickname, @RequestBody DiscordAccountDTO discordAccountDTO, @RequestParam String password) {
-        return this.service.addDiscordAccount(nickname, discordAccountDTO, password);
+    @PostMapping("add_discord_account")
+    public ResponseEntity addDiscordAccount(@RequestBody DiscordAccountDTO discordAccountDTO, @RequestParam String email, @RequestParam String password) {
+        return this.service.addDiscordAccount(discordAccountDTO, password, email);
     }
 
     @GetMapping("check_login")
