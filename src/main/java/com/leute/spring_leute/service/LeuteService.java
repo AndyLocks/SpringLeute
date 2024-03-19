@@ -8,7 +8,7 @@ public interface LeuteService {
     ResponseEntity saveNewDiscordUser(AccountDTO user);
     ResponseEntity addDiscordAccount(String nickname, DiscordAccountDTO discordAccountDTO, String password);
 
-    ResponseEntity<Boolean> chekLogin(String nickname, String password);
+    ResponseEntity<Boolean> chekLogin(String email, String password);
 
     ResponseEntity deleteUser(String nickname, String password);
 

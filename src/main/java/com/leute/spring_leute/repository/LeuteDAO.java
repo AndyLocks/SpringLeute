@@ -35,4 +35,8 @@ public class LeuteDAO {
             return null;
         }
     }
+
+    public Account getUserByEmail(String email) {
+        return repo.getUserByEmail(email);
+    }
 }

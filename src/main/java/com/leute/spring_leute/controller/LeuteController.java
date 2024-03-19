@@ -38,8 +38,8 @@ public class LeuteController {
     }
 
     @GetMapping("check_login")
-    public ResponseEntity<Boolean> checkLogin(@RequestParam String nickname, @RequestParam String password) {
-        return this.service.chekLogin(nickname, password);
+    public ResponseEntity<Boolean> checkLogin(@RequestParam String email, @RequestParam String password) {
+        return this.service.chekLogin(email, password);
     }
 
     @DeleteMapping("delete/{nickname}")

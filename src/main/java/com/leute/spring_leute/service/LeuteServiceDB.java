@@ -18,8 +18,8 @@ public class LeuteServiceDB implements LeuteService {
     private LeuteDAO repository;
 
     @Override
-    public ResponseEntity<Boolean> chekLogin(String nickname, String password) {
-        Account account = repository.getUserByNickname(nickname);
+    public ResponseEntity<Boolean> chekLogin(String email, String password) {
+        Account account = repository.getUserByEmail(email);
         if (account == null) {
             return new ResponseEntity<>(false, HttpStatus.OK);
         }

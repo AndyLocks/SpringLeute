@@ -13,4 +13,7 @@ public interface LeuteRepo extends JpaRepository<Account, Integer> {
 
     @Query(value = "select account.*, discord_account.user_id from account join discord_account on account.discord_account_id = discord_account.id where discord_account.user_id = ?1", nativeQuery = true)
     Account findAccountByDiscordId(String id);
+
+    @Query(value = "select * from account where email = ?1", nativeQuery = true)
+    Account getUserByEmail(String email);
 }
