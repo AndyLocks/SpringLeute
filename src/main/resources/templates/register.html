@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+
+    <!-- Montserrat font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+    <style>
+      
+    body {
+          background-color: #191919;
+    }
+      
+    p, a {
+      font-family: "Montserrat", sans-serif;
+      color: white;
+      margin: 5px;
+    }
+
+    h1 {
+      font-family: "Montserrat", sans-serif;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 140%;
+    }
+
+    header {
+      top: 0;
+      width: 19%;
+      position: fixed;
+      padding: 15px;
+      background-color: #232323;
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    main {
+      text-align: center;
+      margin-top: 100px;
+    }
+    
+    #form_div {
+      display: grid;
+      background-color: #232323;
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    label {
+      font-family: "Montserrat", sans-serif;
+      color: white;
+      font-size: 20px;
+      padding: 5px;
+    }
+
+    input, textarea {
+      margin-bottom: 20px;
+      background-color: #191919;
+      border: 0;
+      padding: 20px;
+      font-family: "Montserrat", sans-serif;
+      color: white;
+      font-size: 20px;
+      font-weight: 400;
+      border-radius: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    #submit {
+      margin-top: 34px;
+      display: block;
+      background-color: #5865F2;
+      color: white;
+    }
+
+    form {
+      margin-top: 60px;
+    }
+
+    </style>
+
+</head>
+<body>
+
+      <header>
+        <div>
+            <a href="/">Home</a>
+            <a href="/register">Register</a>
+            <a href="http://localhost:8080/swagger-ui/index.html">Swagger</a>
+        </div>
+      </header>
+    
+      <form th:action="@{/new-user}" method="post" th:object="${account}">
+        <div id="form_div">
+          <label for="nickname">Nickname</label>
+          <input required type="text" th:field="*{nickname}">
+          <br>
+
+          <label for="realName">Real name</label>
+          <input type="text" th:field="*{realName}">
+          <br>
+
+          <label for="description">Description</label>
+          <textarea required th:field="*{description}" cols="10" rows="20"></textarea>
+          <br>
+
+          <label for="email">Email</label>
+          <input required type="email" th:field="*{email}">
+          <br>
+
+          <label for="password">Password</label>
+          <input required type="password" th:field="*{password}">
+          <br>
+
+          <input id="submit" type="submit">
+          <br>
+        </div>
+      </form>
+
+</body>
+</html>
