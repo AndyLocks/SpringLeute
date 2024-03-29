@@ -2,22 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Congrats!!!</title>
+    <title>Search</title>
 
     <!-- Montserrat font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-
     <style>
-
         body {
-            background-color: #191919;
+          background-color: #191919;
         }
-
         
-        p, a, h3 {
+        p, a {
             font-family: "Montserrat", sans-serif;
             color: white;
             margin: 5px;
@@ -46,9 +43,49 @@
             text-align: center;
             margin-top: 100px;
         }
+        
+        #form_div {
+            display: grid;
+            background-color: #232323;
+            border-radius: 15px;
+            padding: 10px;
+        }
 
+        label {
+            font-family: "Montserrat", sans-serif;
+            color: white;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        input, textarea {
+            margin-bottom: 20px;
+            background-color: #191919;
+            border: 0;
+            padding: 20px;
+            font-family: "Montserrat", sans-serif;
+            color: white;
+            font-size: 20px;
+            font-weight: 400;
+            border-radius: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        #submit {
+            margin-top: 34px;
+            display: block;
+            background-color: #5865F2;
+            color: white;
+        }
+
+        form {
+            margin-top: 60px;
+        }
     </style>
-    
+
 </head>
 <body>
 
@@ -61,10 +98,15 @@
         </div>
     </header>
 
-    <main>
-        <h1>Congratulations</h1>
-        <h3>A new account has been created</h3>
-    </main>
+    <form th:action="@{/search}" method="post" th:object="${account}">
+        <div id="form_div">
+          <label for="nickname">Nickname</label>
+          <input required type="text" th:field="*{nickname}">
+          <br>
+
+          <input id="submit" type="submit">
+        </div>
+    </form>
 
 </body>
 </html>
