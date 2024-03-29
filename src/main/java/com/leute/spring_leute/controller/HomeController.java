@@ -1,14 +1,14 @@
 package com.leute.spring_leute.controller;
 
+import com.leute.spring_leute.entity.Account;
 import com.leute.spring_leute.entity.AccountDTO;
+import com.leute.spring_leute.entity.SearchAccount;
+import com.leute.spring_leute.repository.LeuteDAO;
 import com.leute.spring_leute.service.LeuteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/")
@@ -16,6 +16,9 @@ public class HomeController {
 
     @Autowired
     private LeuteService service;
+
+    @Autowired
+    private LeuteDAO repository;
 
     @GetMapping
     public String index() {
@@ -38,5 +41,45 @@ public class HomeController {
     @GetMapping("/new_account_message")
     public String newAccountMessage() {
         return "new_account_message";
+    }
+
+    @GetMapping("/search")
+    public String search(Model model) {
+        model.addAttribute("account", new SearchAccount(null));
+        return "search";
+    }
+
+    @GetMapping("/{nickname}")
+    public String showAccountData(Model model, @PathVariable String nickname) {
+        Account account = this.repository.getUserByNickname(nickname);
+
+        if (account == null) {
+            return "user_not_found";
+        }
+
+        model.addAttribute("nickname", account.getNickname());
+        model.addAttribute("real_name", account.getRealName());
+        model.addAttribute("description", account.getDescription());
+
+        if (account.getDiscordAccount() == null) {
+            return "account";
+        }
+        else {
+            model.addAttribute("discord_nickname", account.getDiscordAccount().getNickname());
+            model.addAttribute("image", account.getDiscordAccount().getImageUrl());
+            return "account_and_discord_info";
+        }
+    }
+
+    @PostMapping("/search")
+    public String postSearch(@ModelAttribute SearchAccount searchAccount) {
+        String nickname = searchAccount.nickname();
+
+        Account account = this.repository.getUserByNickname(nickname);
+
+        if (account == null)
+            return "user_not_found";
+
+        return "redirect:/" + nickname;
     }
 }
