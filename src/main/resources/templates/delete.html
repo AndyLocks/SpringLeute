@@ -2,19 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Account</title>
+    <title>Delete account</title>
 
     <!-- Montserrat font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
+    
     <style>
+
         body {
-            background-color: #191919;
+          background-color: #191919;
         }
-
-
+        
         p, a {
             font-family: "Montserrat", sans-serif;
             color: white;
@@ -42,18 +42,48 @@
         main {
             text-align: center;
             margin-top: 100px;
-            align-items: center;
         }
-
-        #account_display {
-            padding: 15px;
-            padding-left: 50px;
-            padding-right: 50px;
-            border-radius: 15px;
+        
+        #form_div {
+            display: grid;
             background-color: #232323;
-            display: inline-block;
+            border-radius: 15px;
+            padding: 10px;
         }
 
+        label {
+            font-family: "Montserrat", sans-serif;
+            color: white;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        input, textarea {
+            margin-bottom: 20px;
+            background-color: #191919;
+            border: 0;
+            padding: 20px;
+            font-family: "Montserrat", sans-serif;
+            color: white;
+            font-size: 20px;
+            font-weight: 400;
+            border-radius: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        #submit {
+            margin-top: 34px;
+            display: block;
+            background-color: #5865F2;
+            color: white;
+        }
+
+        form {
+            margin-top: 60px;
+        }
         header div {
             margin-left: 10px;
             margin-right: 10px;
@@ -74,12 +104,19 @@
         </div>
     </header>
 
-    <main>
-        <div id="account_display">
-            <h1 th:text="${nickname}">Nickname</h1>
-            <p th:text="${description}">Description</p>
-        </div>
-    </main>
+    <form th:action="@{/delete_account}" method="post" th:object="${account}">
+        <div id="form_div">
+            <label for="nickname">Nickname</label>
+            <input required type="text" th:field="*{nickname}">
+            <br>
+
+            <label for="password">Password</label>
+            <input required type="text" th:field="*{password}">
+            <br>
+  
+            <input id="submit" type="submit">
+          </div>
+    </form>
 
 </body>
 </html>

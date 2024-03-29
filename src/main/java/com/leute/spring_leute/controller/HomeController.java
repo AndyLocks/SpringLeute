@@ -2,6 +2,7 @@ package com.leute.spring_leute.controller;
 
 import com.leute.spring_leute.entity.Account;
 import com.leute.spring_leute.entity.AccountDTO;
+import com.leute.spring_leute.entity.DeleteAccount;
 import com.leute.spring_leute.entity.SearchAccount;
 import com.leute.spring_leute.repository.LeuteDAO;
 import com.leute.spring_leute.service.LeuteService;
@@ -81,5 +82,19 @@ public class HomeController {
             return "user_not_found";
 
         return "redirect:/" + nickname;
+    }
+
+    @GetMapping("delete_account")
+    public String deleteAccount(Model model) {
+        model.addAttribute("account", new DeleteAccount(null, null));
+
+        return "delete";
+    }
+
+    @PostMapping("delete_account")
+    public String deleteAccountPost(@ModelAttribute DeleteAccount account) {
+        this.service.deleteUser(account.nickname(), account.password());
+
+        return "redirect:/";
     }
 }
