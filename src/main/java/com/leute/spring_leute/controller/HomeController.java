@@ -50,7 +50,7 @@ public class HomeController {
         return "search";
     }
 
-    @GetMapping("/{nickname}")
+    @GetMapping("user/{nickname}")
     public String showAccountData(Model model, @PathVariable String nickname) {
         Account account = this.repository.getUserByNickname(nickname);
 
@@ -81,7 +81,7 @@ public class HomeController {
         if (account == null)
             return "user_not_found";
 
-        return "redirect:/" + nickname;
+        return "redirect:/user/" + nickname;
     }
 
     @GetMapping("delete_account")
