@@ -134,7 +134,7 @@ public class LeuteServiceDB implements LeuteService {
         account.setDiscordAccount(discordAccount);
 
         try {
-            repository.saveNewDiscordUser(account);
+            repository.saveUser(account);
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).header("details", e.getMessage()).build();
