@@ -12,3 +12,13 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+
+logging:
+    level:
+        root: error
+        com.leute.spring_leute: info
+        org:
+            springframework:
+                web:
+                    filter:
+                        CommonsRequestLoggingFilter: DEBUG
