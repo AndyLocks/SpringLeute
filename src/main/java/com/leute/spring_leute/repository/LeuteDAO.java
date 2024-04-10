@@ -11,7 +11,12 @@ public class LeuteDAO {
     @Autowired
     private LeuteRepo repo;
 
-    public void saveNewDiscordUser(Account user) {
+    @Autowired
+    private RedisCacheRepo redis;
+
+    private final Logger logger = LoggerFactory.getLogger(LeuteDAO.class);
+
+    public void saveUser(Account user) {
         repo.save(user);
     }
 
