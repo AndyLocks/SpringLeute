@@ -89,7 +89,7 @@ public class LeuteServiceDB implements LeuteService {
         );
 
         try {
-            this.repository.saveNewDiscordUser(discordUser);
+            this.repository.saveUser(discordUser);
             return ResponseEntity.ok().build();
         }
         catch (RuntimeException e) {
