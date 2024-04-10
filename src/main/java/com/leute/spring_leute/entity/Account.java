@@ -103,4 +103,31 @@ public class Account {
         this.discordAccount = discordAccount;
         this.setPassword(password);
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", realName='" + realName + '\'' +
+                ", description='" + description + '\'' +
+                ", email='" + email + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", discordAccount=" + discordAccount +
+                '}';
+    }
+
+    public static Account createAccountWithPasswordHash(int id, String nickname, String realName, String description, String email, DiscordAccount discordAccount, String passwordHash){
+        Account account = new Account();
+
+        account.setId(id);
+        account.setNickname(nickname);
+        account.setRealName(realName);
+        account.setDescription(description);
+        account.setEmail(email);
+        account.setDiscordAccount(discordAccount);
+        account.setPasswordHash(passwordHash);
+
+        return account;
+    }
 }
