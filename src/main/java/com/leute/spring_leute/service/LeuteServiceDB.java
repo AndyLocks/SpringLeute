@@ -18,6 +18,10 @@ public class LeuteServiceDB implements LeuteService {
 
     @Override
     public ResponseEntity<Boolean> chekLogin(String email, String password) {
+        if(!Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(email).matches()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("details", "invalid email").build();
+        }
+
         Account account = repository.getUserByEmail(email);
         if (account == null) {
             return new ResponseEntity<>(false, HttpStatus.OK);
