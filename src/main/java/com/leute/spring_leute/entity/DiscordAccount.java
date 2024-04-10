@@ -81,4 +81,16 @@ public class DiscordAccount {
         this.name = name;
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "DiscordAccount{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

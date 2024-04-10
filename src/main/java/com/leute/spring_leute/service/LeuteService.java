@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface LeuteService {
     ResponseEntity<ResponseAccountDTO> getUserByNickname(String nickname);
-    ResponseEntity saveNewDiscordUser(AccountDTO user);
+    ResponseEntity saveNewUser(AccountDTO user);
     ResponseEntity addDiscordAccount(DiscordAccountDTO discordAccountDTO, String password, String email);
 
     ResponseEntity<Boolean> chekLogin(String email, String password);

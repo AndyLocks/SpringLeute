@@ -28,7 +28,7 @@ public class HomeController {
 
     @PostMapping("/new-user")
     public String newAccount(@ModelAttribute AccountDTO accountDTO) {
-        this.service.saveNewDiscordUser(accountDTO);
+        this.service.saveNewUser(accountDTO);
 
         return "redirect:/new_account_message";
     }
