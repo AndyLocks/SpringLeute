@@ -20,8 +20,8 @@ public class LeuteController {
             summary = "Adds a new user"
     )
     @PostMapping("registration")
-    public ResponseEntity saveNewDiscordUser(@RequestBody AccountDTO user) {
-        return this.service.saveNewDiscordUser(user);
+    public ResponseEntity saveNewUser(@RequestBody AccountDTO user) {
+        return this.service.saveNewUser(user);
     }
 
     @Operation(

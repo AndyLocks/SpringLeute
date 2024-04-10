@@ -62,7 +62,7 @@ public class LeuteServiceDB implements LeuteService {
     }
 
     @Override
-    public ResponseEntity saveNewDiscordUser(AccountDTO dto) {
+    public ResponseEntity saveNewUser(AccountDTO dto) {
         try {
             Objects.requireNonNull(dto.getEmail());
             Objects.requireNonNull(dto.getDescription());
