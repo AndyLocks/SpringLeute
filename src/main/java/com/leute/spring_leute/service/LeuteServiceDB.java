@@ -3,6 +3,8 @@ package com.leute.spring_leute.service;
 import com.leute.spring_leute.entity.*;
 import com.leute.spring_leute.repository.LeuteDAO;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.util.regex.Pattern;
 public class LeuteServiceDB implements LeuteService {
     @Autowired
     private LeuteDAO repository;
+
+    private Logger logger = LoggerFactory.getLogger(LeuteServiceDB.class);
 
     @Override
     public ResponseEntity<Boolean> chekLogin(String email, String password) {
@@ -167,6 +171,8 @@ public class LeuteServiceDB implements LeuteService {
     @Override
     public ResponseEntity updateAccount(AccountUpdateDTO accountUpdateDTO, String nickname, String password) {
         Account account = repository.getUserByNickname(nickname);
+
+        logger.info("Updating account: {}", account.toString());
 
         if (account == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
