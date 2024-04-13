@@ -1,7 +1,8 @@
 package com.leute.spring_leute.controller;
 
 import com.leute.spring_leute.entity.*;
-import com.leute.spring_leute.service.LeuteService;
+import com.leute.spring_leute.service.DiscordService;
+import com.leute.spring_leute.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +13,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/user")
 public class LeuteController {
+    @Autowired
+    private DiscordService discordService;
 
     @Autowired
-    private LeuteService service;
+    private UserService userService;
 
     @Operation(
             summary = "Adds a new user"
     )
     @PostMapping("registration")
     public ResponseEntity saveNewUser(@RequestBody AccountDTO user) {
-        return this.service.saveNewUser(user);
+        return this.userService.saveNewUser(user);
     }
 
     @Operation(
@@ -29,31 +32,31 @@ public class LeuteController {
     )
     @GetMapping("{nickname}")
     public ResponseEntity<ResponseAccountDTO> findUserByNickname(@PathVariable String nickname) {
-        return this.service.getUserByNickname(nickname);
+        return this.userService.getUserByNickname(nickname);
     }
 
     @PostMapping("add_discord_account")
     public ResponseEntity addDiscordAccount(@RequestBody DiscordAccountDTO discordAccountDTO, @RequestParam String email, @RequestParam String password) {
-        return this.service.addDiscordAccount(discordAccountDTO, password, email);
+        return this.discordService.addDiscordAccount(discordAccountDTO, password, email);
     }
 
     @GetMapping("check_login")
     public ResponseEntity<Boolean> checkLogin(@RequestParam String email, @RequestParam String password) {
-        return this.service.chekLogin(email, password);
+        return this.userService.chekLogin(email, password);
     }
 
     @DeleteMapping("delete/{nickname}")
     public ResponseEntity deleteUser(@PathVariable String nickname, @RequestParam String password) {
-        return this.service.deleteUser(nickname, password);
+        return this.userService.deleteUser(nickname, password);
     }
 
     @PutMapping("update/{nickname}")
     public ResponseEntity updateAccount(@RequestBody AccountUpdateDTO accountUpdateDTO, @PathVariable String nickname, @RequestParam String password) {
-        return this.service.updateAccount(accountUpdateDTO, nickname, password);
+        return this.userService.updateAccount(accountUpdateDTO, nickname, password);
     }
 
     @GetMapping("discord_id/{id}")
     public ResponseEntity<ResponseAccountDTO> getAccountByDiscordId(@PathVariable String id) {
-        return this.service.getUserByDiscordId(id);
+        return this.discordService.getUserByDiscordId(id);
     }
 }
