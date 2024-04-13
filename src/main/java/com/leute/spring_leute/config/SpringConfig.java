@@ -1,4 +1,4 @@
-package com.leute.spring_leute;
+package com.leute.spring_leute.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
