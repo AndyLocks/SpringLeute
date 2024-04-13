@@ -5,7 +5,9 @@ import com.leute.spring_leute.entity.AccountDTO;
 import com.leute.spring_leute.entity.DeleteAccount;
 import com.leute.spring_leute.entity.SearchAccount;
 import com.leute.spring_leute.repository.LeuteDAO;
+import com.leute.spring_leute.service.DiscordService;
 import com.leute.spring_leute.service.LeuteService;
+import com.leute.spring_leute.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-
     @Autowired
-    private LeuteService service;
+    private UserService userService;
 
     @Autowired
     private LeuteDAO repository;
@@ -28,7 +29,7 @@ public class HomeController {
 
     @PostMapping("/new-user")
     public String newAccount(@ModelAttribute AccountDTO accountDTO) {
-        this.service.saveNewUser(accountDTO);
+        this.userService.saveNewUser(accountDTO);
 
         return "redirect:/new_account_message";
     }
@@ -93,7 +94,7 @@ public class HomeController {
 
     @PostMapping("delete_account")
     public String deleteAccountPost(@ModelAttribute DeleteAccount account) {
-        this.service.deleteUser(account.nickname(), account.password());
+        this.userService.deleteUser(account.nickname(), account.password());
 
         return "redirect:/";
     }
