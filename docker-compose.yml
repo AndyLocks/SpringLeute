@@ -1,0 +1,55 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres-container
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: aboba
+      POSTGRES_USER: postgres
+      POSTGRES_DB: test
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  spring_leute:
+    container_name: spring-leute
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=aboba
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+    volumes:
+      - ./:/src
+
+  redis:
+    image: redis
+    restart: always
+    container_name: redis-container
+    command: redis-server
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+
+volumes:
+  db:
+    driver: local
+  redis:
+    driver: local

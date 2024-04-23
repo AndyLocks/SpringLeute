@@ -1,4 +1,4 @@
-package com.leute.spring_leute;
+package com.leute.spring_leute.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ public class SpringConfig {
     @Bean
     @Scope("singleton")
     JedisPool jedisPool() {
-        return new JedisPool("localhost", 6379);
+        return new JedisPool("redis", 6379);
     }
 
     @Bean
