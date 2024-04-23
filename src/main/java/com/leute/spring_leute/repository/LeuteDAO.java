@@ -21,6 +21,8 @@ public class LeuteDAO {
     public void saveUser(Account user) {
         repo.save(user);
         logger.info("Save new user: " + user.toString());
+        redis.deleteCache(user);
+        logger.info("Delete user cache: " + user.toString());
     }
 
     public Account getUserByNickname(String nickname) {
