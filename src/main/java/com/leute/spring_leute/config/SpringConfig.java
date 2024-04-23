@@ -11,7 +11,7 @@ public class SpringConfig {
     @Bean
     @Scope("singleton")
     JedisPool jedisPool() {
-        return new JedisPool("localhost", 6379);
+        return new JedisPool("redis", 6379);
     }
 
     @Bean
