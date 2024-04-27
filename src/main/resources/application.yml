@@ -1,4 +1,7 @@
 spring:
+    docker:
+        compose:
+            lifecycle-management: start_only
     datasource:
         username: postgres
         password: aboba
