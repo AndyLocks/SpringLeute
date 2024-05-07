@@ -1,0 +1,5 @@
+<app-header></app-header>
+<app-account *ngIf="showAccount" [account]="account"></app-account>
+<main *ngIf="!showAccount">
+    <h1>Not Found</h1>
+</main>
