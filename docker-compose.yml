@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     container_name: postgres-container
-    restart: always
+    restart: no
     ports:
       - "5433:5432"
     environment:
@@ -40,7 +40,7 @@ services:
 
   redis:
     image: redis
-    restart: always
+    restart: no
     container_name: redis-container
     command: redis-server
     ports:
