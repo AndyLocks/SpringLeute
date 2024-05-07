@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/")
+@CrossOrigin
 public class HomeController {
     @Autowired
     private UserService userService;
