@@ -1,0 +1,15 @@
+<app-header></app-header>
+<main>
+    <h1>Search</h1>
+    <div id="form_div">
+        <form [formGroup]="form"
+        (ngSubmit)="onSubmit()">
+            <input
+                type="text"
+                placeholder="Request"
+                formControlName="request">
+        
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</main>

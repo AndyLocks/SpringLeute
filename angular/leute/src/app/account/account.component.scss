@@ -1,0 +1,37 @@
+#account_display {
+    padding: 15px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 15px;
+    background-color: #232323;
+    display: inline-block;
+}
+
+#discord_container {
+    margin: 30px;
+    padding: 15px;
+    border-radius: 30px;
+    background-color: #191919;
+    align-items: center;
+    display: inline-flex;
+}
+
+#discord_container h3 {
+    font-weight: 1000;
+}
+
+#discord_container svg {
+    width: 30px;
+    margin-right: 5px;
+}
+
+#discord_container img {
+    max-width: 70px;
+    border-radius: 15px;
+}
+
+#discord_nickname {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 15px;
+}

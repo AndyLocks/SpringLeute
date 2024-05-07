@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "main_methods")
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/user")
 public class LeuteController {
     @Autowired
