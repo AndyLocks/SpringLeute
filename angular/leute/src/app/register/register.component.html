@@ -1,0 +1,37 @@
+<app-header></app-header>
+<form [formGroup]="form"
+        (ngSubmit)="onSubmit()">
+    <div id="form_div">
+      <label for="nickname">Nickname</label>
+      <input required type="text"
+      formControlName="nickname">
+      <br>
+
+      <label for="realName">Real name</label>
+      <input type="text"
+      formControlName="realName">
+      <br>
+
+      <label for="description">Description</label>
+      <textarea
+        required
+        cols="10" 
+        rows="20"
+        formControlName="description"
+      ></textarea>
+      <br>
+
+      <label for="email">Email</label>
+      <input required type="email"
+        formControlName="email">
+      <br>
+
+      <label for="password">Password</label>
+      <input required type="password"
+        formControlName="password">
+      <br>
+
+      <input id="submit" type="submit">
+      <br>
+    </div>
+  </form>
