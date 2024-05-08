@@ -16,6 +16,7 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
   spring_leute:
+    restart: no
     container_name: spring-leute
     build:
       context: .
@@ -28,13 +29,14 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     ports:
-      - "8080:8080"
+      - "8000:8080"
     depends_on:
       - db
       - redis
     links:
       - db
       - redis
+      - angular
     volumes:
       - ./:/src
 
@@ -47,6 +49,15 @@ services:
       - "6379:6379"
     volumes:
       - redis:/data
+
+  angular:
+    container_name: angular
+    restart: no
+    build:
+      dockerfile: Dockerfile
+      context: angular/leute
+    ports:
+      - "8080:4200"
 
 volumes:
   db:
