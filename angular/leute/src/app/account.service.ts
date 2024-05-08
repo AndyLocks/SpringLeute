@@ -8,7 +8,7 @@ import { IAccount } from './models/account';
 })
 export class AccountService {
 
-  private static baseUrl: string = "http://spring-leute:8000";
+  private static baseUrl: string = "http://localhost:8000";
 
   constructor(private http: HttpClient) { }
 

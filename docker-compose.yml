@@ -36,7 +36,6 @@ services:
     links:
       - db
       - redis
-      - angular
     volumes:
       - ./:/src
 
@@ -58,6 +57,11 @@ services:
       context: angular/leute
     ports:
       - "8080:4200"
+    links:
+      - spring_leute
+    depends_on:
+      - spring_leute
+     
 
 volumes:
   db:
