@@ -1,0 +1,44 @@
+#form_div {
+    display: grid;
+    background-color: #232323;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+label {
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    font-size: 20px;
+    padding: 5px;
+}
+
+input, textarea {
+    margin-bottom: 20px;
+    background-color: #191919;
+    border: 0;
+    padding: 20px;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+#submit {
+    margin-top: 34px;
+    display: block;
+    background-color: #5865F2;
+    color: white;
+}
+
+form {
+    margin-top: 60px;
+}
+header div {
+    margin-left: 10px;
+    margin-right: 10px;
+}

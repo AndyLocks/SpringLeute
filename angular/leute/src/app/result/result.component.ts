@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccountService } from '../account.service';
 import { IAccount } from '../models/account';
-import { aboba } from '../data/aboba';
 import { AccountComponent } from '../account/account.component';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';

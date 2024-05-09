@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from './header.component';
+import { DeleterComponent } from './deleter.component';
 
-describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+describe('DeleterComponent', () => {
+  let component: DeleterComponent;
+  let fixture: ComponentFixture<DeleterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderComponent]
+      imports: [DeleterComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(HeaderComponent);
+    
+    fixture = TestBed.createComponent(DeleterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
