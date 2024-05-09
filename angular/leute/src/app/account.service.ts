@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { IAccount } from './models/account';
 
+export const baseUrl: string = "http://localhost:8000"
+
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  private static baseUrl: string = "http://localhost:8000";
+  private static baseUrl: string = baseUrl;
 
   constructor(private http: HttpClient) { }
 
